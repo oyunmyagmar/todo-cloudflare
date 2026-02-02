@@ -62,9 +62,8 @@ const SamplePage = () => {
     } catch (e) {
       console.error("Mutation error:", e);
     }
-    // setTodos([...todos, { id: uuidv4(), title: inputValue, isDone: false }]);
   };
-
+  ``;
   console.log({ loading, error, data });
 
   if (error) return `Submission error! ${error.message}`;
