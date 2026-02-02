@@ -1,23 +1,23 @@
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { ApolloServer } from "@apollo/server";
 import { gql } from "graphql-tag";
-import { getTodos } from "@/app/graphql/getTodos";
-import { createTodos } from "@/app/graphql/createTodos";
+import { getTodos } from "@/app/graphql/resolvers/getTodos";
+import { createTodos } from "@/app/graphql/resolvers/createTodos";
 
 const typeDefs = gql`
   type Todo {
-    id: Int
-    title: String
-    isDone: Boolean
+    id: ID!
+    title: String!
+    isDone: Boolean!
   }
 
   type Query {
     hello: String
-    getTodos: [Todo]
+    getTodos: [Todo!]!
   }
 
   type Mutation {
-    createTodos: Todo
+    createTodos(id: ID!, title: String!, isDone: Boolean!): Todo!
   }
 `;
 const resolvers = {
@@ -35,6 +35,10 @@ const server = new ApolloServer({
   typeDefs,
 });
 
-const handler = startServerAndCreateNextHandler(server);
+const handler = startServerAndCreateNextHandler(server, {
+  context: async ({ env }) => {
+    return { env };
+  },
+});
 
 export { handler as GET, handler as POST };
