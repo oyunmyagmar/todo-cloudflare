@@ -1,5 +1,6 @@
 import { getDb } from "@/db";
 import { todos } from "@/db/schema";
+import { sql } from "drizzle-orm";
 
 export async function createTodos(
   _: unknown,
@@ -11,7 +12,7 @@ export async function createTodos(
   await db.insert(todos).values({
     id: args.id,
     title: args.title,
-    isDone: args.isDone ? 1 : 0,
+    isDone: sql`{args.isDone ? 1 : 0}`,
   });
 
   return {

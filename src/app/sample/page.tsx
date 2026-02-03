@@ -53,9 +53,7 @@ const SamplePage = () => {
     try {
       await createTodos({
         variables: {
-          id: newTodo.id,
-          title: newTodo.title,
-          isDone: newTodo.isDone,
+          ...newTodo,
         },
       });
       setInputValue("");
